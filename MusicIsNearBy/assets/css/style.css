@@ -529,7 +529,7 @@ section {
   width: 120px;
   height: 1px;
   display: inline-block;
-  background: #ffde9e;
+  background: #9fd7fb;
   margin: 4px 10px;
 }
 
@@ -629,7 +629,7 @@ section {
 .features .icon-box i {
   font-size: 48px;
   float: left;
-  color: #ffc451;
+  color: #be2e57;
 }
 
 .features .icon-box p {
@@ -670,7 +670,7 @@ section {
 }
 
 .services .icon-box .icon i {
-  color: #151515;
+  color: #fff;
   font-size: 28px;
   transition: ease-in-out 0.3s;
 }
@@ -1424,7 +1424,7 @@ section {
 }
 
 #footer .footer-top .footer-info h3 span {
-  color: #ffc451;
+  color: #9ead5c;
 }
 
 #footer .footer-top .footer-info p {
@@ -1451,7 +1451,7 @@ section {
 }
 
 #footer .footer-top .social-links a:hover {
-  background: #ffc451;
+  background: #9ead5c;
   color: #151515;
   text-decoration: none;
 }
@@ -1476,7 +1476,7 @@ section {
 
 #footer .footer-top .footer-links ul i {
   padding-right: 2px;
-  color: #ffc451;
+  color: #be2e57;
   font-size: 18px;
   line-height: 1;
 }
@@ -1499,7 +1499,7 @@ section {
 }
 
 #footer .footer-top .footer-links ul a:hover {
-  color: #ffc451;
+  color: #be2e57;
 }
 
 #footer .footer-top .footer-newsletter form {
@@ -1525,7 +1525,7 @@ section {
   background: none;
   font-size: 16px;
   padding: 0 20px;
-  background: #ffc451;
+  background: #9ead5c;
   color: #151515;
   transition: 0.3s;
   border-radius: 0 4px 4px 0;
