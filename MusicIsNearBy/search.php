@@ -1,29 +1,40 @@
 <?php
-// Подключение к базе данных с использованием вашего класса
-require 'db_connect.php';
+require 'db_connect.php'; // Подключение к базе данных
 
-if(!$conn){
-    die("Ошибка подключения к базе данных: " . $connect->getConnectionError());
+if (!$conn) {
+  die("Ошибка подключения к базе данных: " . $db->getConnectionError());
 }
 
-if(isset($_POST["query"])){
-    $output = '';
-    $query = "SELECT DISTINCT EduOrganization FROM output WHERE EduOrganization LIKE '%".$_POST["query"]."%'";
-    
-    $result = $conn->query($query);
-    $output = '<ul class="list-unstyled">';
-    
-    if($result->num_rows > 0){
-        while($row = $result->fetch_assoc()){
-            $output .= '<li>'.$row["EduOrganization"].'</li>';
-        }
-    }else{
-        $output .= '<li><br>Школа не найдена</li>';
+$output = '';
+$query = $_POST['query'];
+
+if ($query != '') {
+  $sql = "SELECT DISTINCT EduOrganization FROM output WHERE EduOrganization LIKE '%$query%'";
+  $result = $conn->query($sql);
+
+  if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+      $school_name = $row['EduOrganization'];
+      $output .= "<div class='school-card'>$school_name</div>";
     }
-    
-    $output .= '</ul>';
-    echo $output;
+  } else {
+    $output = 'Школы не найдены';
+  }
+} else {
+  // Если ничего не введено, выводим все школы
+  $sql = "SELECT DISTINCT EduOrganization FROM output";
+  $result = $conn->query($sql);
+
+  if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+      $school_name = $row['EduOrganization'];
+      $output .= "<div class='school-card'>$school_name</div>";
+    }
+  } else {
+    $output = 'Нет доступных школ';
+  }
 }
 
 $conn->close();
+echo $output;
 ?>

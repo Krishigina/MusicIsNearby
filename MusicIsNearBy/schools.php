@@ -42,6 +42,21 @@
       z-index: 997;
       padding: 15px 0;
     }
+
+    .school-card {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .school-card:hover {
+      background-color: #a2bfcc;
+      color: #fff;
+    }
   </style>
 
   <!-- ======= Header ======= -->
@@ -63,9 +78,8 @@
   <main id="main">
     <section id="about" class="about">
       <div class="container" data-aos="fade-up">
-
         <?php
-        require 'db_connect.php'; // Подключение к базе данных
+        require 'db_connect.php';
         if (!$conn) {
           die("Ошибка подключения к базе данных: " . $db->getConnectionError());
         }
@@ -75,7 +89,7 @@
         if ($result->num_rows > 0) {
           while ($row = $result->fetch_assoc()) {
             $school_name = $row['EduOrganization'];
-            $output .= "<p>$school_name</p>";
+            $output .= "<div class='school-card'>$school_name</div>";
           }
         } else {
           $output = 'Нет доступных школ';
@@ -90,8 +104,10 @@
               <div id="userList"></div>
             </div>
           </div>
+          <div id="schoolCards">
+            <?php echo $output; ?>
+          </div>
         </div>
-        <!-- <?php echo $output; ?> -->
       </div>
     </section>
     <footer id="footer">
@@ -147,29 +163,45 @@
     <script src="assets/js/main.js"></script>
   </main>
 
-</body>
-
-</html>
-
-<script>
-  $(document).ready(function () {
-    $('#user').keyup(function () {
-      var query = $(this).val();
-      if (query != '') {
+  <script>
+    $(document).ready(function () {
+      function loadSchoolCards(query) {
         $.ajax({
           url: "search.php",
           method: "POST",
           data: { query: query },
           success: function (data) {
-            $('#userList').fadeIn();
-            $('#userList').html(data);
+            $('#schoolCards').html(data);
           }
         });
       }
+
+      $('#user').keyup(function () {
+        var query = $(this).val();
+        if (query != '') {
+          $('#userList').fadeIn();
+          loadSchoolCards(query);
+        } else {
+          $('#userList').fadeOut();
+          loadSchoolCards('');
+        }
+      });
+
+      $(document).on('mouseover', '.school-card', function () {
+        $(this).css('background-color', '#a2bfcc');
+      });
+
+      $(document).on('mouseout', '.school-card', function () {
+        $(this).css('background-color', '');
+      });
+
+      $(document).on('click', '.school-card', function () {
+        var schoolName = $(this).text();
+        window.location.href = 'school_details.php?school_name=' + encodeURIComponent(schoolName);
+      });
     });
-    $(document).on('click', 'li', function () {
-      $('#user').val($(this).text());
-      $('#userList').fadeOut();
-    });
-  });  
-</script>
+  </script>
+
+</body>
+
+</html>
