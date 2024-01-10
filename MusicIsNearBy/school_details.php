@@ -67,7 +67,7 @@ if (isset($_GET['school_name'])) {
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
     <!-- Yandex Maps API -->
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=26f1b1fe-241d-42de-8c3a-10083d193e62&lang=ru_RU"
+    <script src="https://api-maps.yandex.ru/v3/?apikey=26f1b1fe-241d-42de-8c3a-10083d193e62&lang=ru_RU"
         type="text/javascript"></script>
 
     <!-- Template Main CSS File -->
