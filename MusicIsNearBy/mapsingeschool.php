@@ -1,20 +1,24 @@
 <?php
 require_once 'logic/getCoordinates.php';
-$organization = 'ГБПОУ г. Москвы «МГКМИ им. Ф.Шопена»';
+if (isset($_GET['school_name'])) {
+    $school_name = $_GET['school_name'];
+}
+$organization = $school_name;
 $coordinates = getCoordinatesByOrganization($organization);
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 
 <head>
-    <title>Быстрый старт. Размещение интерактивной карты на странице</title>
+    <title>Музыка рядом - ваш помощник по выбору музыкальной школы</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <script src="https://api-maps.yandex.ru/v3/?apikey=26f1b1fe-241d-42de-8c3a-10083d193e62&lang=ru_RU"></script>
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/img/music-svgrepo-com.svg" rel="icon">
     
     <script>
         main();
@@ -90,12 +94,9 @@ $coordinates = getCoordinatesByOrganization($organization);
 </head>
 
 <body>
-    <div id="map" style="width: 800px; height: 600px"></div>
+    
+    <!-- <div id="map" style="width: 800px; height: 600px"></div> -->
 
-    <!-- Вывод переменных на странице -->
-    <div>
-
-    </div>
 </body>
 
 </html>

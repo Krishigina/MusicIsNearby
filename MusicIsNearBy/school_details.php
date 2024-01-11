@@ -1,26 +1,64 @@
 <?php
 // school_details.php
 
+function executeQuery($conn, $sql)
+{
+    $result = $conn->query($sql);
+
+    if (!$result) {
+        // Обработка ошибки, например, вывод сообщения и логирование
+        echo "Ошибка выполнения запроса: " . $conn->error;
+        exit();
+    }
+
+    return $result;
+}
+
 require 'db_connect.php';
+require_once 'mapsingeschool.php';
 
 // Проверка наличия параметра запроса
 if (isset($_GET['school_name'])) {
     $school_name = $_GET['school_name'];
 
-    // Запрос к базе данных для получения подробной информации о школе
-    $sql = "SELECT * FROM output WHERE EduOrganization = '$school_name'";
-    $result = $conn->query($sql);
+    // Запрос к базе данных для получения данных о школе
+    $sql = "SELECT 
+    GROUP_CONCAT(DISTINCT InstrumentSort SEPARATOR ', ') AS InstrumentSort_values,
+    (
+        SELECT GROUP_CONCAT(DISTINCT InstrumentType ORDER BY count_type DESC SEPARATOR ', ')
+        FROM (
+            SELECT InstrumentType, COUNT(*) AS count_type
+            FROM alltables
+            WHERE EduOrganization = '$school_name'
+            GROUP BY InstrumentType
+            ORDER BY count_type DESC
+            LIMIT 5
+        ) AS subquery
+    ) AS Top_5_InstrumentTypes,
+    (
+        SELECT InstrumentState
+        FROM (
+            SELECT InstrumentState, COUNT(*) AS count_state
+            FROM alltables
+            WHERE EduOrganization = '$school_name'
+            GROUP BY InstrumentState
+            ORDER BY count_state DESC
+            LIMIT 1
+        ) AS subquery
+    ) AS Most_frequent_InstrumentState,
+    IF(COUNT(InstrumentMonthRentCosts IS NOT NULL) > 0, 'есть', 'нет') AS have_rent
+FROM alltables
+WHERE EduOrganization = '$school_name';";
+
+    $result = executeQuery($conn, $sql);
 
     if ($result->num_rows > 0) {
-        // Получение данных о школе
+        // Получение данных
         $school_data = $result->fetch_assoc();
-
-        // Здесь вы можете использовать переменные $school_data['column_name'] для вывода информации на страницу
-        $school_name = $school_data['EduOrganization'];
-
-        // Изменения в переменных для полей InstrumentSort и InstrumentType
-        $instrumentSort = implode(', ', array_map('trim', explode(',', $school_data['InstrumentSort'])));
-        $instrumentType = implode(', ', array_map('trim', explode(',', $school_data['InstrumentType'])));
+        $instrumentSort = $school_data['InstrumentSort_values'];
+        $instrumentType = $school_data['Top_5_InstrumentTypes'];
+        $instrumentState = $school_data['Most_frequent_InstrumentState'];
+        $instrumentRent = $school_data['have_rent'];
         // Добавьте другие поля, которые вам нужны
 
         // Закрытие соединения с базой данных
@@ -116,7 +154,24 @@ if (isset($_GET['school_name'])) {
                         <div class="swiper-wrapper align-items-center">
                             <!-- Your portfolio images go here -->
                             <div class="swiper-slide">
-                                <img src="assets/img/portfolio/portfolio-1.jpg" alt="">
+                                <?php
+                                $image_name = "portfolio" . $school_name . "-1.jpg";
+                                ?>
+                                <img src="assets/img/portfolio/<?php echo $image_name; ?>" alt="">
+                            </div>
+
+                            <div class="swiper-slide">
+                                <?php
+                                $image_name = "portfolio" . $school_name . "-2.jpg";
+                                ?>
+                                <img src="assets/img/portfolio/<?php echo $image_name; ?>" alt="">
+                            </div>
+
+                            <div class="swiper-slide">
+                                <?php
+                                $image_name = "portfolio" . $school_name . "-3.jpg";
+                                ?>
+                                <img src="assets/img/portfolio/<?php echo $image_name; ?>" alt="">
                             </div>
                         </div>
                         <div class="swiper-pagination"></div>
@@ -128,6 +183,15 @@ if (isset($_GET['school_name'])) {
                         <ul>
                             <li><strong>Вид музыкального инструмента</strong>:
                                 <?php echo $instrumentSort; ?>
+                            </li>
+                            <li><strong>Тип музыкального инструмента</strong>:
+                                <?php echo $instrumentType; ?>
+                            </li>
+                            <li><strong>Общее состояние инструментов</strong>:
+                                <?php echo $instrumentState; ?>
+                            </li>
+                            <li><strong>Наличие аренды</strong>:
+                                <?php echo $instrumentRent; ?>
                             </li>
                         </ul>
                     </div>
@@ -152,28 +216,9 @@ if (isset($_GET['school_name'])) {
                 <h2>Адрес</h2>
                 <p>Местоположение школы</p>
             </div>
-            <div id="map" style="width: 100%; height:500px"></div>
-            <script type="text/javascript">
-                ymaps.ready(init);
-                function init() {
-                    var point = [<?php echo $object['point']; ?>];
-                    var myMap = new ymaps.Map("map", {
-                        center: point,
-                        zoom: 16
-                    }, {
-                        searchControlProvider: 'yandex#search'
-                    });
 
-                    var myPlacemark = new ymaps.Placemark(point, {
-                        balloonContent: '<?php echo $object['name']; ?>'
-                    }, {
-                        preset: 'islands#icon',
-                        iconColor: '#ff0000'
-                    });
+            <div id="map" class="w-100" style="height: 80vh;"></div>
 
-                    myMap.geoObjects.add(myPlacemark);
-                }
-            </script>
             <div class="row mt-5">
                 <div class="col-lg-4">
                     <div class="info">

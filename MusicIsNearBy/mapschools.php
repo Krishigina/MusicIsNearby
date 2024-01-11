@@ -1,6 +1,5 @@
 <?php
 require_once 'logic/getCoordinates.php';
-// $organization = 'ГБПОУ г. Москвы «МГКМИ им. Ф.Шопена»';
 $organizations = getSchoolsCoordinates();
 ?>
 
@@ -38,6 +37,7 @@ $organizations = getSchoolsCoordinates();
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="assets/img/music-svgrepo-com.svg" rel="icon">
 
     <!-- Yandex Maps API -->
     <script src="https://api-maps.yandex.ru/v3/?apikey=26f1b1fe-241d-42de-8c3a-10083d193e62&lang=ru_RU"
@@ -113,7 +113,7 @@ $organizations = getSchoolsCoordinates();
             el.title = EduOrganization;
 
             // При клике на маркер меняем центр карты на координаты школы с заданным duration
-            el.onclick = () => map.update({ location: { center: [parseFloat(Longitude), parseFloat(Latitude)], zoom: 10, duration: 400 } });
+            el.onclick = () => map.update({ location: { center: [parseFloat(Longitude), parseFloat(Latitude)], zoom: 13, duration: 400 } });
 
             // Создание заголовка маркера
             const markerTitle = document.createElement('div');
@@ -129,10 +129,17 @@ $organizations = getSchoolsCoordinates();
             // Добавление маркера на карту
             map.addChild(new YMapMarker({ coordinates: [parseFloat(Longitude), parseFloat(Latitude)] }, imgContainer));
 
+            // Добавление обработчика событий к markerTitle
+            markerTitle.addEventListener('click', () => {
+                // Переход на страницу с параметром названия школы
+                window.location.href = 'school_details.php?school_name=' + encodeURIComponent(EduOrganization);
+            });
+
         });
 
     }
 </script>
+
 
 <body>
 
@@ -147,7 +154,8 @@ $organizations = getSchoolsCoordinates();
             </nav>
             <form class="d-flex">
                 <div class="form-outline" data-mdb-input-init>
-                    <input type="search" id="form1" class="form-control" placeholder="Название школы" style="font-family: Poppins" aria-label="Search" />
+                    <input type="search" id="form1" class="form-control" placeholder="Название школы"
+                        style="font-family: Open Sans; font-size: 14px; width: 260px; " aria-label="Search" />
                 </div>
 
             </form>
