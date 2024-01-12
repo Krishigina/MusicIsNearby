@@ -51,8 +51,6 @@ $organizations = getSchoolsCoordinates();
 <script>
     main();
     async function main() {
-
-
         // ожидание загрузки модулей
         await ymaps3.ready;
         const {
@@ -77,7 +75,6 @@ $organizations = getSchoolsCoordinates();
         // Создание объекта карты
         // Получение массива координат школ из PHP
 
-
         // Создание объекта карты
         map = new YMap(document.getElementById('map'), { location: LOCATION });
 
@@ -92,19 +89,12 @@ $organizations = getSchoolsCoordinates();
         map.addChild(new YMapControls({ position: 'bottom right' })
             .addChild(new YMapGeolocationControl({}))
         );
-
-
         const schoolsCoordinates = <?php echo json_encode($organizations); ?>;
-
-
         // Создание маркеров для каждой школы
         Object.keys(schoolsCoordinates).forEach(school => {
             const { Latitude, Longitude, EduOrganization } = schoolsCoordinates[school];
 
-
-
             const CENTER_COORDINATES = [Longitude, Latitude];
-
 
             // Создание маркера
             const el = document.createElement('img');
@@ -140,9 +130,7 @@ $organizations = getSchoolsCoordinates();
     }
 </script>
 
-
 <body>
-
     <!-- Header -->
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center justify-content-lg-between">

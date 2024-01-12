@@ -135,7 +135,7 @@
             <div class="col-lg-3 col-md-6 footer-links">
               <h4>Наши сервисы</h4>
               <ul>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">Просмотреть школы на карте</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="mapschools.php">Просмотреть школы на карте</a></li>
                 <li><i class="bx bx-chevron-right"></i> <a href="#">Сравнить школы</a></li>
                 <li><i class="bx bx-chevron-right"></i> <a href="#">Заявка на аренду инструмента</a></li>
                 <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Подробная информация о школе</a></li>

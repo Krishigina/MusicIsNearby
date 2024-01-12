@@ -47,15 +47,4 @@ function getSchoolsCoordinates()
     }
     return $coordinates;
 }
-
-// Получение координат для конкретной школы
-// $organization = 'ГБОУ ВО МГИМ им. А.Г. Шнитке';
-// $coordinates = getCoordinatesByOrganization($organization);
-// header('Content-Type: application/json');
-// echo json_encode($coordinates);
-
-// Получение массива координат всех школ
-// $allSchoolsCoordinates = getSchoolsCoordinates();
-// header('Content-Type: application/json');
-// echo json_encode($allSchoolsCoordinates);
 ?>
