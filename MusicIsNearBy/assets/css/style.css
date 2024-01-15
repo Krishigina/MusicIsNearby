@@ -1613,3 +1613,31 @@ table {
   border-collapse: separate;
   border-spacing: 15px;
 }
+
+.form-check-input:checked {
+  background-color: #9ead5c !important;
+  border-color: #9ead5c !important;
+}
+
+.form-check-input:focus {
+  border-color: #fff;
+  outline: 0;
+  box-shadow: 0 0 0 0.15rem #9ead5c;
+}
+
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #98bc82 !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.15rem #c0c0c0;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #fff !important;
+  background-color: #98bc82 !important;
+  box-shadow: 0 0 0 0.15rem #C0C0C0;
+}
+
+.checkbox-margin {
+  margin-bottom: 10px; /* Измените значение на необходимое */
+}

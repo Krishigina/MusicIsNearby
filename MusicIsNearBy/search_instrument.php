@@ -17,7 +17,11 @@ if (isset($_GET['query']) && isset($_GET['school_name'])) {
     $query = $_GET['query'];
     $school_name = $_GET['school_name'];
 
-    $sql = "SELECT DISTINCT InstrumentType FROM alltables WHERE EduOrganization = '$school_name' AND InstrumentType LIKE '%$query%'";
+    $sql = "SELECT DISTINCT InstrumentType
+        FROM alltables 
+        WHERE EduOrganization = '$school_name' 
+        AND InstrumentType LIKE '%$query%' 
+        AND InstrumentMonthRentCosts IS NOT NULL";
     $result = executeQuery($conn, $sql);
 
     echo "<ul>";

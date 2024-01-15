@@ -1,4 +1,4 @@
-<?php 
+<?php
 // search_school.php
 
 require 'db_connect.php';
@@ -19,7 +19,11 @@ function executeQuery($conn, $sql)
 if (isset($_GET['query'])) {
     $query = $_GET['query'];
 
-    $sql = "SELECT DISTINCT EduOrganization FROM alltables WHERE EduOrganization LIKE '%$query%'";
+    $sql = "SELECT DISTINCT EduOrganization 
+    FROM alltables 
+    WHERE EduOrganization LIKE '%$query%' 
+    GROUP BY EduOrganization 
+    HAVING MAX(InstrumentMonthRentCosts IS NOT NULL) > 0";
     $result = executeQuery($conn, $sql);
 
     if ($result->num_rows > 0) {

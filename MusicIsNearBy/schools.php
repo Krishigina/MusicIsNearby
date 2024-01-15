@@ -71,7 +71,7 @@
         </ul>
       </nav>
 
-      <a href="#about" class="get-started-btn scrollto">Get Started</a>
+      <!-- <a href="#about" class="get-started-btn scrollto">Get Started</a> -->
 
     </div>
   </header>
@@ -129,6 +129,7 @@
               <h4>Полезные ссылки</h4>
               <ul>
                 <li><i class="bx bx-chevron-right"></i> <a href="index.html">Главная</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="https://data.mos.ru/opendata/1037?isDynamic=false">Ссылка на источник данных</a></li>
               </ul>
             </div>
 
@@ -136,10 +137,9 @@
               <h4>Наши сервисы</h4>
               <ul>
                 <li><i class="bx bx-chevron-right"></i> <a href="mapschools.php">Просмотреть школы на карте</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">Сравнить школы</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">Заявка на аренду инструмента</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="application.php">Заявка на аренду инструмента</a></li>
                 <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Подробная информация о школе</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">Поиск с фильтрацией</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="searchfilters.php">Поиск с фильтрацией</a></li>
                 <li><i class="bx bx-chevron-right"></i> <a href="#">Статьи о музыкальном образовании</a></li>
               </ul>
             </div>

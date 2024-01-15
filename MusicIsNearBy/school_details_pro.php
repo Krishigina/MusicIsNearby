@@ -117,25 +117,72 @@ if (isset($_GET['school_name'])) {
     <link href="assets/img/music-svgrepo-com.svg" rel="icon">
 
     <style>
-        #searchResults, #searchInstrumentResults {
+        #searchResults {
             max-height: 200px;
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 0px;
         }
 
-        #searchResults, #searchInstrumentResults ul {
+        #searchResults ul {
             list-style: none;
             padding: 0;
             margin: 0;
         }
 
-        #searchResults, #searchInstrumentResults li {
+        #searchResults li {
             cursor: pointer;
             padding: 5px;
+            margin-left: 10px;
         }
 
-        #searchResults, #searchInstrumentResults li:hover {
+        #searchResults li:hover {
+            background-color: #eee;
+        }
+
+        #searchInstrumentResults {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 0px;
+        }
+
+        #searchInstrumentResults ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #searchInstrumentResults li {
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+        }
+
+        #searchInstrumentResults li:hover {
+            background-color: #eee;
+        }
+
+        #searchModelResults {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 0px;
+        }
+
+        #searchModelResults ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #searchModelResults li {
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 10px;
+        }
+
+        #searchModelResults li:hover {
             background-color: #eee;
         }
     </style>
@@ -152,7 +199,7 @@ if (isset($_GET['school_name'])) {
                     <li><a class="nav-link scrollto" href="index.html">Главная</a></li>
                 </ul>
             </nav>
-            <a href="#about" class="get-started-btn scrollto">Get Started</a>
+            <!-- <a href="#about" class="get-started-btn scrollto">Get Started</a> -->
         </div>
     </header>
 
@@ -244,10 +291,11 @@ if (isset($_GET['school_name'])) {
                                     </div><br><br> -->
 
 
-                                    <label for="searchSchool"></label>
-                                    <input type="text" id="searchSchool" class="form-control"
-                                        placeholder="Введите название школы" value="<?php echo $school_name; ?>">
-                                    <div id="searchResults"></div>
+                                    <div class="form-group mt-3"><label for="searchSchool"></label>
+                                        <input type="text" id="searchSchool" class="form-control"
+                                            placeholder="Введите название школы" value="<?php echo $school_name; ?>">
+                                        <div id="searchResults"></div>
+                                    </div>
                                     <br><br>
 
                                     <div class="row">
@@ -272,6 +320,7 @@ if (isset($_GET['school_name'])) {
                                     <div class="form-group mt-3">
                                         <input type="text" class="form-control" name="model" id="model"
                                             placeholder="Выберите модель инструмента" required>
+                                        <div id="searchModelResults"></div>
                                     </div>
                                     <div class="my-3">
                                         <div class="loading">В процессе</div>
@@ -309,6 +358,7 @@ if (isset($_GET['school_name'])) {
                         <ul>
                             <li><i class="bx bx-chevron-right"></i> <a href="index.html">Главная</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Все школы</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://data.mos.ru/opendata/1037?isDynamic=false">Ссылка на источник данных</a></li>
                         </ul>
                     </div>
 
@@ -317,11 +367,10 @@ if (isset($_GET['school_name'])) {
                         <ul>
                             <li><i class="bx bx-chevron-right"></i> <a href="mapschools.php">Просмотреть школы на
                                     карте</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Сравнить школы</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Заявка на аренду инструмента</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="application.php">Заявка на аренду инструмента</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Подробная информация о
                                     школе</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Поиск с фильтрацией</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="searchfilters.php">Поиск с фильтрацией</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Статьи о музыкальном образовании</a>
                             </li>
                         </ul>
@@ -384,7 +433,7 @@ if (isset($_GET['school_name'])) {
                 $.ajax({
                     url: 'search_school.php', // Создайте отдельный файл для обработки поиска
                     method: 'GET',
-                    data: { query: query },
+                    data: { query: query, school_name: query }, // Используйте значение из поля ввода в качестве school_name
                     success: function (data) {
                         $('#searchResults').html(data);
                     }
@@ -392,7 +441,7 @@ if (isset($_GET['school_name'])) {
             });
         });
     </script>
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function () {
             const searchInput = document.getElementById("searchSchool");
             const searchResults = document.getElementById("searchResults");
@@ -458,6 +507,96 @@ if (isset($_GET['school_name'])) {
                 });
             });
         });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInstrumentInput = document.getElementById("model");
+            const searchInstrumentResults = document.getElementById("searchModelResults");
+
+            function fillTypeInstrumentField(value) {
+                searchInstrumentInput.value = value;
+                searchInstrumentResults.innerHTML = "";
+            }
+
+            searchInstrumentResults.addEventListener("click", function (e) {
+                if (e.target.tagName === "LI") {
+                    fillTypeInstrumentField(e.target.textContent);
+                }
+            });
+
+            searchInstrumentInput.addEventListener("input", function () {
+                const query = searchInstrumentInput.value;
+
+                $.ajax({
+                    url: 'search_model.php', // Создайте отдельный файл для обработки поиска инструмента
+                    method: 'GET',
+                    data: { query: query, school_name: '<?php echo $school_name; ?>'},
+                    success: function (data) {
+                        searchInstrumentResults.innerHTML = data;
+                    }
+                });
+            });
+        });
+    </script> -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("searchSchool");
+            const searchResults = document.getElementById("searchResults");
+            const searchInstrumentInput = document.getElementById("typeInstrument");
+            const searchInstrumentResults = document.getElementById("searchInstrumentResults");
+            const searchModelInput = document.getElementById("model");
+            const searchModelResults = document.getElementById("searchModelResults");
+
+            function fillField(input, results, value) {
+                input.value = value;
+                results.innerHTML = "";
+            }
+
+            function handleResults(results, callback) {
+                results.addEventListener("click", function (e) {
+                    if (e.target.tagName === "LI") {
+                        callback(e.target.textContent);
+                    }
+                });
+            }
+
+            function handleInput(input, results, url) {
+                input.addEventListener("input", function () {
+                    const query = input.value;
+
+                    // Отправить запрос на сервер для получения подсказок
+                    // (вы можете использовать AJAX или другие методы для этого)
+
+                    // В данном примере, давайте сделаем простой запрос с использованием fetch
+                    fetch(url + `?query=${query}&school_name=${searchInput.value}&type=${searchInstrumentInput.value}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            results.innerHTML = data;
+                        })
+                        .catch(error => {
+                            console.error("Ошибка при выполнении запроса:", error);
+                        });
+                });
+            }
+
+            handleResults(searchResults, function (value) {
+                fillField(searchInput, searchResults, value);
+            });
+
+            handleResults(searchInstrumentResults, function (value) {
+                fillField(searchInstrumentInput, searchInstrumentResults, value);
+            });
+
+            handleResults(searchModelResults, function (value) {
+                fillField(searchModelInput, searchModelResults, value);
+            });
+
+            handleInput(searchInput, searchResults, 'search_school.php');
+            handleInput(searchInstrumentInput, searchInstrumentResults, 'search_instrument.php');
+            handleInput(searchModelInput, searchModelResults, 'search_model.php');
+        });
+
     </script>
 
 </body>

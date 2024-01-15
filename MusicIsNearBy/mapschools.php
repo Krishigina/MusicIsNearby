@@ -49,6 +49,53 @@ $organizations = getSchoolsCoordinates();
 </head>
 
 <script>
+    const schoolsCoordinates = <?php echo json_encode($organizations); ?>;
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchInput = document.getElementById('form1');
+
+        searchInput.addEventListener('input', function () {
+            const query = this.value.trim().toLowerCase();
+
+            // Фильтруем школы, которые содержат введенный запрос в названии
+            const filteredSchools = Object.keys(schoolsCoordinates).filter(school => {
+                const schoolName = schoolsCoordinates[school].EduOrganization.toLowerCase();
+                return schoolName.includes(query);
+            });
+
+            // Очищаем карту от всех маркеров
+            // Очищаем карту от всех маркеров (если map.geoObjects существует)
+            if (map.geoObjects) {
+                map.geoObjects.removeAll();
+            }
+
+            // Добавляем новые маркеры только для отфильтрованных школ
+            filteredSchools.forEach(school => {
+                const { Latitude, Longitude, EduOrganization } = schoolsCoordinates[school];
+
+                const el = document.createElement('img');
+                el.className = 'my-marker';
+                el.src = 'assets/img/markerschool.svg';
+                el.title = EduOrganization;
+
+                el.onclick = () => map.update({ location: { center: [parseFloat(Longitude), parseFloat(Latitude)], zoom: 13, duration: 400 } });
+
+                const markerTitle = document.createElement('div');
+                markerTitle.className = 'marker-title marker-title-inner';
+                markerTitle.innerHTML = EduOrganization;
+
+                const imgContainer = document.createElement('div');
+                imgContainer.appendChild(el);
+                imgContainer.appendChild(markerTitle);
+
+                map.addChild(new YMapMarker({ coordinates: [parseFloat(Longitude), parseFloat(Latitude)] }, imgContainer));
+
+                markerTitle.addEventListener('click', () => {
+                    window.location.href = 'school_details.php?school_name=' + encodeURIComponent(EduOrganization);
+                });
+            });
+        });
+    });
+
     main();
     async function main() {
         // ожидание загрузки модулей
@@ -140,14 +187,14 @@ $organizations = getSchoolsCoordinates();
                     <li><a class="nav-link scrollto" href="index.html">Главная</a></li>
                 </ul>
             </nav>
-            <form class="d-flex">
+            <!-- <form class="d-flex">
                 <div class="form-outline" data-mdb-input-init>
                     <input type="search" id="form1" class="form-control" placeholder="Название школы"
                         style="font-family: Open Sans; font-size: 14px; width: 260px; " aria-label="Search" />
                 </div>
 
-            </form>
-            <a href="#about" class="get-started-btn scrollto">Get Started</a>
+            </form> -->
+            <!-- <a href="#about" class="get-started-btn scrollto">Get Started</a> -->
         </div>
     </header>
     <div class="container-fluid">

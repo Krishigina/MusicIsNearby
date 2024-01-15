@@ -46,7 +46,7 @@ if (isset($_GET['school_name'])) {
             LIMIT 1
         ) AS subquery
     ) AS Most_frequent_InstrumentState,
-    IF(COUNT(InstrumentMonthRentCosts IS NOT NULL) > 0, 'есть', 'нет') AS have_rent
+    IF(MAX(InstrumentMonthRentCosts IS NOT NULL) > 0, 'есть', 'нет') AS have_rent
 FROM alltables
 WHERE EduOrganization = '$school_name';";
 
@@ -138,7 +138,7 @@ LIMIT 5;";
                     <li><a class="nav-link scrollto" href="index.html">Главная</a></li>
                 </ul>
             </nav>
-            <a href="#about" class="get-started-btn scrollto">Get Started</a>
+            <!-- <a href="#about" class="get-started-btn scrollto">Get Started</a> -->
         </div>
     </header>
 
@@ -281,6 +281,7 @@ LIMIT 5;";
                         <ul>
                             <li><i class="bx bx-chevron-right"></i> <a href="index.html">Главная</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Все школы</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="https://data.mos.ru/opendata/1037?isDynamic=false">Ссылка на источник данных</a></li>
                         </ul>
                     </div>
 
@@ -289,11 +290,10 @@ LIMIT 5;";
                         <ul>
                             <li><i class="bx bx-chevron-right"></i> <a href="mapschools.php">Просмотреть школы на
                                     карте</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Сравнить школы</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Заявка на аренду инструмента</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="application.php">Заявка на аренду инструмента</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Подробная информация о
                                     школе</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Поиск с фильтрацией</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="searchfilters.php">Поиск с фильтрацией</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="#">Статьи о музыкальном образовании</a>
                             </li>
                         </ul>
