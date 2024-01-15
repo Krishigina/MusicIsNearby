@@ -236,7 +236,7 @@ mysqli_close($conn);
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Подробная информация о
                                     школе</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="searchfilters.php">Поиск с фильтрацией</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="#">Статьи о музыкальном образовании</a>
+                            <li><i class="bx bx-chevron-right"></i> <a href="article.php">Статьи о музыкальном образовании</a>
                             </li>
                         </ul>
                     </div>
