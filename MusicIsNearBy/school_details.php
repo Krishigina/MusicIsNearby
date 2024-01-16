@@ -216,32 +216,34 @@ LIMIT 5;";
                 </div>
                 <div class="portfolio-description">
                     <h2>Немного об обеспеченности музыкальными инструментами</h2>
-                    <table>
-                        <tr style='text-align: center; padding: 10px;'>
-                            <th>Инструмент</th>
-                            <th>Модель</th>
-                            <th>Состояние</th>
-                            <th>Производитель</th>
-                            <th>Дата выпуска инструмента</th>
-                            <th>Проводившийся ремонт</th>
-                            <th>Стоимость аренды в месяц</th>
-                        </tr>
-                        <?php
-                        // Fetch and display all rows
-                        while ($school_data2 = $result2->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . ($school_data2['InstrumentType'] ?? '-') . "</td>";
-                            echo "<td>" . ($school_data2['InstrumentModel'] ?? '-') . "</td>";
-                            echo "<td>" . ($school_data2['InstrumentState'] ?? '-') . "</td>";
-                            echo "<td>" . ($school_data2['InstrumentManufacturer'] ?? '-') . "</td>";
-                            echo "<td>" . ($school_data2['InstrumentManufacturingDate'] ?? '-') . "</td>";
-                            echo "<td>" . ($school_data2['InstrumentRepairDone'] ?? '-') . "</td>";
-                            echo "<td>" . ($school_data2['InstrumentMonthRentCosts'] ?? '-') . "</td>";
-                            echo "</tr>";
-                        }
-                        ?>
-                        <!-- Добавьте остальные строки таблицы -->
-                    </table>
+                    <div class="table-wrapper">
+                        <table>
+                            <tr style='text-align: center; padding: 10px;'>
+                                <th>Инструмент</th>
+                                <th>Модель</th>
+                                <th>Состояние</th>
+                                <th>Производитель</th>
+                                <th>Дата выпуска инструмента</th>
+                                <th>Проводившийся ремонт</th>
+                                <th>Стоимость аренды в месяц</th>
+                            </tr>
+                            <?php
+                            // Fetch and display all rows
+                            while ($school_data2 = $result2->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td>" . ($school_data2['InstrumentType'] ?? '-') . "</td>";
+                                echo "<td>" . ($school_data2['InstrumentModel'] ?? '-') . "</td>";
+                                echo "<td>" . ($school_data2['InstrumentState'] ?? '-') . "</td>";
+                                echo "<td>" . ($school_data2['InstrumentManufacturer'] ?? '-') . "</td>";
+                                echo "<td>" . ($school_data2['InstrumentManufacturingDate'] ?? '-') . "</td>";
+                                echo "<td>" . ($school_data2['InstrumentRepairDone'] ?? '-') . "</td>";
+                                echo "<td>" . ($school_data2['InstrumentMonthRentCosts'] ?? '-') . "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
+                            <!-- Добавьте остальные строки таблицы -->
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -281,7 +283,9 @@ LIMIT 5;";
                         <ul>
                             <li><i class="bx bx-chevron-right"></i> <a href="index.html">Главная</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Все школы</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="https://data.mos.ru/opendata/1037?isDynamic=false">Ссылка на источник данных</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a
+                                    href="https://data.mos.ru/opendata/1037?isDynamic=false">Ссылка на источник
+                                    данных</a></li>
                         </ul>
                     </div>
 
@@ -290,11 +294,14 @@ LIMIT 5;";
                         <ul>
                             <li><i class="bx bx-chevron-right"></i> <a href="mapschools.php">Просмотреть школы на
                                     карте</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="application.php">Заявка на аренду инструмента</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="application.php">Заявка на аренду
+                                    инструмента</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Подробная информация о
                                     школе</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="searchfilters.php">Поиск с фильтрацией</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="article.php">Статьи о музыкальном образовании</a>
+                            <li><i class="bx bx-chevron-right"></i> <a href="searchfilters.php">Поиск с фильтрацией</a>
+                            </li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="article.php">Статьи о музыкальном
+                                    образовании</a>
                             </li>
                         </ul>
                     </div>

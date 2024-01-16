@@ -225,31 +225,33 @@ if (isset($_GET['school_name'])) {
                 <div class="portfolio-info">
                     <h3>Обеспеченность музыкальными инструментами</h3>
                     <ul>
-                        <table>
-                            <tr style='text-align: center; padding: 10px;'>
-                                <th>Инструмент</th>
-                                <th>Модель</th>
-                                <th>Состояние</th>
-                                <th>Производитель</th>
-                                <th>Дата выпуска инструмента</th>
-                                <th>Проводившийся ремонт</th>
-                                <th>Стоимость аренды в месяц</th>
-                            </tr>
-                            <?php
-                            // Извлечение и отображение всех строк
-                            while ($school_data2 = $result2->fetch_assoc()) {
-                                echo "<tr>";
-                                echo "<td>" . ($school_data2['InstrumentType'] ?? '-') . "</td>";
-                                echo "<td>" . ($school_data2['InstrumentModel'] ?? '-') . "</td>";
-                                echo "<td>" . ($school_data2['InstrumentState'] ?? '-') . "</td>";
-                                echo "<td>" . ($school_data2['InstrumentManufacturer'] ?? '-') . "</td>";
-                                echo "<td>" . ($school_data2['InstrumentManufacturingDate'] ?? '-') . "</td>";
-                                echo "<td>" . ($school_data2['InstrumentRepairDone'] ?? '-') . "</td>";
-                                echo "<td>" . ($school_data2['InstrumentMonthRentCosts'] ?? '-') . "</td>";
-                                echo "</tr>";
-                            }
-                            ?>
-                        </table>
+                        <div class="table-wrapper">
+                            <table>
+                                <tr style='text-align: center; padding: 10px;'>
+                                    <th>Инструмент</th>
+                                    <th>Модель</th>
+                                    <th>Состояние</th>
+                                    <th>Производитель</th>
+                                    <th>Дата выпуска инструмента</th>
+                                    <th>Проводившийся ремонт</th>
+                                    <th>Стоимость аренды в месяц</th>
+                                </tr>
+                                <?php
+                                // Извлечение и отображение всех строк
+                                while ($school_data2 = $result2->fetch_assoc()) {
+                                    echo "<tr>";
+                                    echo "<td>" . ($school_data2['InstrumentType'] ?? '-') . "</td>";
+                                    echo "<td>" . ($school_data2['InstrumentModel'] ?? '-') . "</td>";
+                                    echo "<td>" . ($school_data2['InstrumentState'] ?? '-') . "</td>";
+                                    echo "<td>" . ($school_data2['InstrumentManufacturer'] ?? '-') . "</td>";
+                                    echo "<td>" . ($school_data2['InstrumentManufacturingDate'] ?? '-') . "</td>";
+                                    echo "<td>" . ($school_data2['InstrumentRepairDone'] ?? '-') . "</td>";
+                                    echo "<td>" . ($school_data2['InstrumentMonthRentCosts'] ?? '-') . "</td>";
+                                    echo "</tr>";
+                                }
+                                ?>
+                            </table>
+                        </div>
                     </ul>
                 </div>
             </div>
@@ -283,16 +285,12 @@ if (isset($_GET['school_name'])) {
                     <div class="container" data-aos="fade-up">
                         <div class="row mt-0">
                             <div class="col-lg-12 mt-0 mt-lg-0">
-
-                                <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                                    <!-- <div class="form-group mt-3">
-                                        <input type="text" class="form-control" name="school" id="school"
-                                            placeholder="Выберите школу" value="<?php echo $school_name; ?>" required>
-                                    </div><br><br> -->
+                                <form action="logic/send.php" method="post" role="form" class="php-email-form" id="form"
+                                    onsubmit="submitForm(event)" action="send.php">
 
 
                                     <div class="form-group mt-3"><label for="searchSchool"></label>
-                                        <input type="text" id="searchSchool" class="form-control"
+                                        <input type="text" id="searchSchool" class="form-control" name="schoolName"
                                             placeholder="Введите название школы" value="<?php echo $school_name; ?>">
                                         <div id="searchResults"></div>
                                     </div>
@@ -324,11 +322,16 @@ if (isset($_GET['school_name'])) {
                                     </div>
                                     <div class="my-3">
                                         <div class="loading">В процессе</div>
-                                        <div class="error-message"></div>
-                                        <div class="sent-message">Ваша заявка была отправлена. Благодарим!</div>
-                                    </div>
-                                    <div class="text-center"><button type="submit">Отправить</button></div>
+                                        <!-- <div class="error-message"> Ваша заявка была отправлена. Благодарим!</div> -->
+                                        <div class="alert alert-success d-none">Ваша заявка была отправлена.
+                                            Благодарим!</div>
+                                        <div class="alert alert-danger d-none">Ваша заявка не была отправлена. Так
+                                            как возникла ошибка!</div>
+                                        <div class="text-center"><button type="submit" name="submit">Отправить</button>
+                                        </div>
                                 </form>
+
+
                             </div>
                         </div>
                     </div>
@@ -358,7 +361,9 @@ if (isset($_GET['school_name'])) {
                         <ul>
                             <li><i class="bx bx-chevron-right"></i> <a href="index.html">Главная</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Все школы</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="https://data.mos.ru/opendata/1037?isDynamic=false">Ссылка на источник данных</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a
+                                    href="https://data.mos.ru/opendata/1037?isDynamic=false">Ссылка на источник
+                                    данных</a></li>
                         </ul>
                     </div>
 
@@ -367,11 +372,14 @@ if (isset($_GET['school_name'])) {
                         <ul>
                             <li><i class="bx bx-chevron-right"></i> <a href="mapschools.php">Просмотреть школы на
                                     карте</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="application.php">Заявка на аренду инструмента</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="application.php">Заявка на аренду
+                                    инструмента</a></li>
                             <li><i class="bx bx-chevron-right"></i> <a href="schools.php">Подробная информация о
                                     школе</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="searchfilters.php">Поиск с фильтрацией</a></li>
-                            <li><i class="bx bx-chevron-right"></i> <a href="article.php">Статьи о музыкальном образовании</a>
+                            <li><i class="bx bx-chevron-right"></i> <a href="searchfilters.php">Поиск с фильтрацией</a>
+                            </li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="article.php">Статьи о музыкальном
+                                    образовании</a>
                             </li>
                         </ul>
                     </div>
@@ -423,182 +431,9 @@ if (isset($_GET['school_name'])) {
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Обработчик ввода в поле поиска
-            $('#searchSchool').on('input', function () {
-                let query = $(this).val();
 
-                // Выполнение Ajax-запроса
-                $.ajax({
-                    url: 'search_school.php', // Создайте отдельный файл для обработки поиска
-                    method: 'GET',
-                    data: { query: query, school_name: query }, // Используйте значение из поля ввода в качестве school_name
-                    success: function (data) {
-                        $('#searchResults').html(data);
-                    }
-                });
-            });
-        });
-    </script>
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchInput = document.getElementById("searchSchool");
-            const searchResults = document.getElementById("searchResults");
-
-            // Функция для заполнения поля поиска при выборе строки из результатов
-            function fillSearchField(value) {
-                searchInput.value = value;
-                searchResults.innerHTML = ""; // Очистить результаты после выбора
-            }
-
-            // Обработчик события для подсказок
-            searchResults.addEventListener("click", function (e) {
-                if (e.target.tagName === "LI") {
-                    fillSearchField(e.target.textContent);
-                }
-            });
-
-            // Обработчик события для поля ввода
-            searchInput.addEventListener("input", function () {
-                const query = searchInput.value;
-
-                // Отправить запрос на сервер для получения подсказок
-                // (вы можете использовать AJAX или другие методы для этого)
-
-                // В данном примере, давайте сделаем простой запрос с использованием fetch
-                fetch(`search_school.php?query=${query}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        searchResults.innerHTML = data;
-                    })
-                    .catch(error => {
-                        console.error("Ошибка при выполнении запроса:", error);
-                    });
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchInstrumentInput = document.getElementById("typeInstrument");
-            const searchInstrumentResults = document.getElementById("searchInstrumentResults");
-
-            function fillTypeInstrumentField(value) {
-                searchInstrumentInput.value = value;
-                searchInstrumentResults.innerHTML = "";
-            }
-
-            searchInstrumentResults.addEventListener("click", function (e) {
-                if (e.target.tagName === "LI") {
-                    fillTypeInstrumentField(e.target.textContent);
-                }
-            });
-
-            searchInstrumentInput.addEventListener("input", function () {
-                const query = searchInstrumentInput.value;
-
-                $.ajax({
-                    url: 'search_instrument.php', // Создайте отдельный файл для обработки поиска инструмента
-                    method: 'GET',
-                    data: { query: query, school_name: '<?php echo $school_name; ?>' },
-                    success: function (data) {
-                        searchInstrumentResults.innerHTML = data;
-                    }
-                });
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchInstrumentInput = document.getElementById("model");
-            const searchInstrumentResults = document.getElementById("searchModelResults");
-
-            function fillTypeInstrumentField(value) {
-                searchInstrumentInput.value = value;
-                searchInstrumentResults.innerHTML = "";
-            }
-
-            searchInstrumentResults.addEventListener("click", function (e) {
-                if (e.target.tagName === "LI") {
-                    fillTypeInstrumentField(e.target.textContent);
-                }
-            });
-
-            searchInstrumentInput.addEventListener("input", function () {
-                const query = searchInstrumentInput.value;
-
-                $.ajax({
-                    url: 'search_model.php', // Создайте отдельный файл для обработки поиска инструмента
-                    method: 'GET',
-                    data: { query: query, school_name: '<?php echo $school_name; ?>'},
-                    success: function (data) {
-                        searchInstrumentResults.innerHTML = data;
-                    }
-                });
-            });
-        });
-    </script> -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchInput = document.getElementById("searchSchool");
-            const searchResults = document.getElementById("searchResults");
-            const searchInstrumentInput = document.getElementById("typeInstrument");
-            const searchInstrumentResults = document.getElementById("searchInstrumentResults");
-            const searchModelInput = document.getElementById("model");
-            const searchModelResults = document.getElementById("searchModelResults");
-
-            function fillField(input, results, value) {
-                input.value = value;
-                results.innerHTML = "";
-            }
-
-            function handleResults(results, callback) {
-                results.addEventListener("click", function (e) {
-                    if (e.target.tagName === "LI") {
-                        callback(e.target.textContent);
-                    }
-                });
-            }
-
-            function handleInput(input, results, url) {
-                input.addEventListener("input", function () {
-                    const query = input.value;
-
-                    // Отправить запрос на сервер для получения подсказок
-                    // (вы можете использовать AJAX или другие методы для этого)
-
-                    // В данном примере, давайте сделаем простой запрос с использованием fetch
-                    fetch(url + `?query=${query}&school_name=${searchInput.value}&type=${searchInstrumentInput.value}`)
-                        .then(response => response.text())
-                        .then(data => {
-                            results.innerHTML = data;
-                        })
-                        .catch(error => {
-                            console.error("Ошибка при выполнении запроса:", error);
-                        });
-                });
-            }
-
-            handleResults(searchResults, function (value) {
-                fillField(searchInput, searchResults, value);
-            });
-
-            handleResults(searchInstrumentResults, function (value) {
-                fillField(searchInstrumentInput, searchInstrumentResults, value);
-            });
-
-            handleResults(searchModelResults, function (value) {
-                fillField(searchModelInput, searchModelResults, value);
-            });
-
-            handleInput(searchInput, searchResults, 'search_school.php');
-            handleInput(searchInstrumentInput, searchInstrumentResults, 'search_instrument.php');
-            handleInput(searchModelInput, searchModelResults, 'search_model.php');
-        });
-
-    </script>
-
+    <!-- Обработка заявки(живой поиск и тд) -->
+    <script src="assets/js/application.js"></script>
 </body>
 
 </html>
